@@ -7,7 +7,7 @@
   "files": [
     "lib/"
   ],
-  "repository": "git@github.com:philiplopez/easy-vector2d.git",
+  "repository": "git@github.com:philiplopez/easy-draw.git",
   "author": "Philip Lopez <philip.lopez@philiplopez.com>",
   "license": "MIT",
   "scripts": {
