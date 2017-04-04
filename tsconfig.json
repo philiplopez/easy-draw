@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "baseUrl": "src/",
+        "module": "es6",
+        "moduleResolution": "node",
+        "declaration": true,
+        "outDir": "lib/"
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
