@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "baseUrl": "src/",
-        "module": "es6",
+        "module": "commonjs",
         "moduleResolution": "node",
         "declaration": true,
         "outDir": "lib/"
