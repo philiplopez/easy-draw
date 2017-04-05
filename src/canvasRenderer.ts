@@ -49,7 +49,7 @@ function findShapeRendererForItem(item : t.Shape) {
 
 function drawCircleOnContext(context : CanvasRenderingContext2D, circleItem : t.Circle) {
     // FIXME: Duplication between drawCircle and drawRect
-    context.save();
+    // context.save();
     context.beginPath();
     context.arc(circleItem.centre_px.x,
                 circleItem.centre_px.y,
@@ -60,12 +60,13 @@ function drawCircleOnContext(context : CanvasRenderingContext2D, circleItem : t.
     context.strokeStyle = asRGBAString(circleItem.style.strokeColour);
     context.fill();
     context.stroke();
-    context.restore();
+    // context.restore();
 }
 
 function drawRectangleOnContext(context : CanvasRenderingContext2D, rectangleItem : t.Rectangle) {
     // FIXME: Duplication between drawCircle and drawRect
-    context.save();
+    // context.save();
+    context.beginPath();
     context.rect(rectangleItem.topLeft_px.x,
                     rectangleItem.topLeft_px.y,
                     rectangleItem.dimensions_px.x,
@@ -74,6 +75,6 @@ function drawRectangleOnContext(context : CanvasRenderingContext2D, rectangleIte
     context.strokeStyle = asRGBAString(rectangleItem.style.strokeColour);
     context.fill();
     context.stroke();
-    context.restore();
+    // context.restore();
                     
 }

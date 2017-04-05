@@ -1,0 +1,16 @@
+{
+  "name": "easy-draw-samples",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "devDependencies": {
+    "fuse-box": "^1.3.130",
+    "typescript": "^2.2.2"
+  },
+  "scripts": {
+    "dev": "open http://localhost:4444/samples.html && node fuse.js"
+  },
+  "dependencies": {
+    "easy-draw": "^0.4.1"
+  }
+}
