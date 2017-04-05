@@ -56,9 +56,9 @@ function drawCircleOnContext(context : CanvasRenderingContext2D, circleItem : t.
                 circleItem.radius_px,
                 0,
                 2 * Math.PI);
-    context.fillStyle = asRGBAString(circleItem.style.strokeColour)
-    context.fill();
+    context.fillStyle = asRGBAString(circleItem.style.fillColour)
     context.strokeStyle = asRGBAString(circleItem.style.strokeColour);
+    context.fill();
     context.stroke();
     context.restore();
 }
@@ -70,9 +70,9 @@ function drawRectangleOnContext(context : CanvasRenderingContext2D, rectangleIte
                     rectangleItem.topLeft_px.y,
                     rectangleItem.dimensions_px.x,
                     rectangleItem.dimensions_px.y);
-    context.fillStyle = asRGBAString(rectangleItem.style.strokeColour)
-    context.fill();
+    context.fillStyle = asRGBAString(rectangleItem.style.fillColour)
     context.strokeStyle = asRGBAString(rectangleItem.style.strokeColour);
+    context.fill();
     context.stroke();
     context.restore();
                     

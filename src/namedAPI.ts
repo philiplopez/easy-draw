@@ -2,9 +2,10 @@ import * as t from "./types"
 import {Vector2D} from "easy-vector2d"
 export * from "./types"
 
+// TODO: probably want a defaultStyleFunction to handle overrides of only one attribute
 const DEFAULT_STYLE : t.Style = {
-    fillColour: rgba(0, 0, 0, 1),
-    strokeColour: rgba(255, 255, 255, 1)
+    fillColour: rgba(255, 255, 255, 1),
+    strokeColour: rgba(0, 0, 0, 1)
 }
 
 /**
