@@ -1,6 +1,6 @@
 {
   "name": "easy-draw",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Simple TypeScript/JavaScript library for drawing graphics (HTML5 canvas, SVG) in a data-first way.",
   "main": "lib/index.js",
   "typings": "lib/index",
