@@ -4,7 +4,7 @@ export * from "./types"
 
 const DEFAULT_STYLE : t.Style = {
     fillColour: rgba(0, 0, 0, 1),
-    strokeColour: rgba(0, 0, 0, 1)
+    strokeColour: rgba(255, 255, 255, 1)
 }
 
 /**

@@ -11,6 +11,7 @@
   "author": "Philip Lopez <philip.lopez@philiplopez.com>",
   "license": "MIT",
   "scripts": {
+    "prepublishOnly": "npm run build",
     "build": "trash lib && tsc -p tsconfig.json"
   },
   "devDependencies": {

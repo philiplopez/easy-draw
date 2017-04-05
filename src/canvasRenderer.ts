@@ -1,13 +1,14 @@
-import * as D from "./types"
+import * as t from "./types"
+import {asRGBAString} from "./utils"
 
 export interface RenderFunc {
-    (graphics : D.Drawable[]): void;
+    (graphics : t.Drawable[]): void;
 }
 
 export function makeRender(context : CanvasRenderingContext2D, clearCanvasEachRender = true) : RenderFunc {
-    return (graphics : D.Drawable[]) => {
+    return (graphics : t.Drawable[]) => {
         if (clearCanvasEachRender) clearCanvas(context);
-        graphics.map((item : D.Drawable) => {
+        graphics.map((item : t.Drawable) => {
             drawItemOnCanvas(context, item)
         })
     }
@@ -18,7 +19,7 @@ function clearCanvas(context : CanvasRenderingContext2D) : void {
     context.clearRect(0, 0, width, height)
 }
 
-function drawItemOnCanvas(context : CanvasRenderingContext2D, item : D.Drawable) {
+function drawItemOnCanvas(context : CanvasRenderingContext2D, item : t.Drawable) {
     // or dynamic dispatch, e.g. 
     const renderItem = findRendererForItem(item)
     if (renderItem) {
@@ -30,15 +31,15 @@ function drawItemOnCanvas(context : CanvasRenderingContext2D, item : D.Drawable)
 }
 
 interface FindRenderFunc {
-    (context : CanvasRenderingContext2D, circleItem : D.Drawable): void;
+    (context : CanvasRenderingContext2D, circleItem : t.Drawable): void;
 }
-function findRendererForItem(item : D.Drawable) : FindRenderFunc {
+function findRendererForItem(item : t.Drawable) : FindRenderFunc {
     return (item.type === "shape")
-        ? findShapeRendererForItem(item as D.Shape)
+        ? findShapeRendererForItem(item as t.Shape)
         : null
 }
 
-function findShapeRendererForItem(item : D.Shape) {
+function findShapeRendererForItem(item : t.Shape) {
     const SHAPE_RENDERERS = {
         circle: drawCircleOnContext,
         rectangle: drawRectangleOnContext
@@ -46,19 +47,33 @@ function findShapeRendererForItem(item : D.Shape) {
     return SHAPE_RENDERERS[item.shapeType]
 }
 
-function drawCircleOnContext(context : CanvasRenderingContext2D, circleItem : D.Circle) {
-    context.beginPath()
+function drawCircleOnContext(context : CanvasRenderingContext2D, circleItem : t.Circle) {
+    // FIXME: Duplication between drawCircle and drawRect
+    context.save();
+    context.beginPath();
     context.arc(circleItem.centre_px.x,
                 circleItem.centre_px.y,
                 circleItem.radius_px,
                 0,
-                2 * Math.PI)
-    context.stroke()
+                2 * Math.PI);
+    context.fillStyle = asRGBAString(circleItem.style.strokeColour)
+    context.fill();
+    context.strokeStyle = asRGBAString(circleItem.style.strokeColour);
+    context.stroke();
+    context.restore();
 }
 
-function drawRectangleOnContext(context : CanvasRenderingContext2D, rectangleItem : D.Rectangle) {
-    context.strokeRect(rectangleItem.topLeft_px.x,
+function drawRectangleOnContext(context : CanvasRenderingContext2D, rectangleItem : t.Rectangle) {
+    // FIXME: Duplication between drawCircle and drawRect
+    context.save();
+    context.rect(rectangleItem.topLeft_px.x,
                     rectangleItem.topLeft_px.y,
                     rectangleItem.dimensions_px.x,
-                    rectangleItem.dimensions_px.y)
+                    rectangleItem.dimensions_px.y);
+    context.fillStyle = asRGBAString(rectangleItem.style.strokeColour)
+    context.fill();
+    context.strokeStyle = asRGBAString(rectangleItem.style.strokeColour);
+    context.stroke();
+    context.restore();
+                    
 }
