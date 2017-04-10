@@ -7,34 +7,41 @@ exports.__esModule = true;
 var D = require("easy-draw/lib/namedAPI");
 var canvasRenderer_1 = require("easy-draw/lib/canvasRenderer");
 var graphics = [
-    D.circle({ x: 120, y: 120 }, 120, {
-        fillColour: D.rgba(0, 255, 0, 1.0),
-        strokeColour: D.rgba(255, 0, 0, 1.0)
+    D.circle({
+        centre_px: {
+            x: 120,
+            y: 120
+        },
+        radius_px: 100,
+        style: {
+            fillRGBA: D.rgba(0, 255, 0, 0.5)
+        }
     }),
-    D.circle({ x: 240, y: 240 }, 120, {
-        fillColour: D.rgba(0, 0, 255, 0.5),
-        strokeColour: D.rgba(0, 255, 0, 0.2)
+    D.circle({
+        centre_px: {
+            x: 240,
+            y: 240
+        },
+        radius_px: 150,
+        style: {
+            fillRGBA: D.rgba(0, 0, 255, 0.5),
+            strokeRGBA: D.rgba(255, 0, 0, 1.0)
+        }
     }),
-    D.circle({ x: 360, y: 360 }, 120, {
-        fillColour: D.rgba(255, 0, 0, 0.25),
-        strokeColour: D.rgba(0, 0, 0, 1.0)
-    }),
-    D.circle({ x: 480, y: 480 }, 120, {
-        fillColour: D.rgba(255, 255, 0, 0.25),
-        strokeColour: D.rgba(0, 0, 0, 1.0)
-    }),
-    D.rectangle({ x: 50, y: 500 }, { x: 50, y: 50 }, {
-        fillColour: D.rgba(0, 255, 255, 1.0),
-        strokeColour: D.rgba(255, 255, 0, 1.0)
-    }),
-    D.rectangle({ x: 75, y: 500 }, { x: 50, y: 50 }, {
-        fillColour: D.rgba(0, 255, 0, 0.75),
-        strokeColour: D.rgba(255, 255, 0, 1.0)
-    }),
-    D.rectangle({ x: 100, y: 500 }, { x: 50, y: 50 }, {
-        fillColour: D.rgba(255, 0, 0, 0.5),
-        strokeColour: D.rgba(255, 255, 0, 1.0)
-    }),
+    D.rectangle({
+        topLeft_px: {
+            x: 75,
+            y: 500
+        },
+        dimensions_px: {
+            x: 50,
+            y: 50
+        },
+        style: {
+            fillRGBA: D.rgba(0, 255, 0, 0.75),
+            strokeRGBA: D.rgba(255, 0, 0, 1.0)
+        }
+    })
 ];
 var canvas = document.getElementById("canvas");
 var renderToScreen = canvasRenderer_1.makeRender(canvas.getContext("2d"), true);
@@ -47,11 +54,7 @@ ___scope___.file("lib/namedAPI.js", function(exports, require, module, __filenam
 
 "use strict";
 exports.__esModule = true;
-// TODO: probably want a defaultStyleFunction to handle overrides of only one attribute
-var DEFAULT_STYLE = {
-    fillColour: rgba(255, 255, 255, 1),
-    strokeColour: rgba(0, 0, 0, 1)
-};
+var EMPTY_STYLE = {};
 /**
  *
  * @param red: 0 to 255 (0 is no red, 255 is full red)
@@ -63,13 +66,13 @@ function rgba(red, green, blue, alpha) {
     return { red: red, green: green, blue: blue, alpha: alpha };
 }
 exports.rgba = rgba;
-function circle(centre_px, radius_px, style) {
-    if (style === void 0) { style = DEFAULT_STYLE; }
+function circle(_a) {
+    var centre_px = _a.centre_px, radius_px = _a.radius_px, _b = _a.style, style = _b === void 0 ? EMPTY_STYLE : _b;
     return { type: "shape", shapeType: "circle", centre_px: centre_px, radius_px: radius_px, style: style };
 }
 exports.circle = circle;
-function rectangle(topLeft_px, dimensions_px, style) {
-    if (style === void 0) { style = DEFAULT_STYLE; }
+function rectangle(_a) {
+    var topLeft_px = _a.topLeft_px, dimensions_px = _a.dimensions_px, _b = _a.style, style = _b === void 0 ? EMPTY_STYLE : _b;
     return { type: "shape", shapeType: "rectangle", topLeft_px: topLeft_px, dimensions_px: dimensions_px, style: style };
 }
 exports.rectangle = rectangle;
@@ -118,26 +121,27 @@ function findShapeRendererForItem(item) {
     };
     return SHAPE_RENDERERS[item.shapeType];
 }
+var DEFAULT_FILL_STYLE = "white";
+var DEFAULT_STROKE_STYLE = "black";
+function applyStyle(context, style) {
+    // TODO: Properly handly fill/stroke options (e.g. string vs rgba vs gradient vs ...)
+    context.fillStyle = (style.fillRGBA) ? utils_1.asRGBAString(style.fillRGBA) : DEFAULT_FILL_STYLE;
+    context.strokeStyle = (style.strokeRGBA) ? utils_1.asRGBAString(style.strokeRGBA) : DEFAULT_STROKE_STYLE;
+    context.fill(); // TODO: always fill?
+    context.stroke(); // TODO: always stroke?
+}
 function drawCircleOnContext(context, circleItem) {
-    // FIXME: Duplication between drawCircle and drawRect
     // context.save();
     context.beginPath();
     context.arc(circleItem.centre_px.x, circleItem.centre_px.y, circleItem.radius_px, 0, 2 * Math.PI);
-    context.fillStyle = utils_1.asRGBAString(circleItem.style.fillColour);
-    context.strokeStyle = utils_1.asRGBAString(circleItem.style.strokeColour);
-    context.fill();
-    context.stroke();
+    applyStyle(context, circleItem.style);
     // context.restore();
 }
 function drawRectangleOnContext(context, rectangleItem) {
-    // FIXME: Duplication between drawCircle and drawRect
     // context.save();
     context.beginPath();
     context.rect(rectangleItem.topLeft_px.x, rectangleItem.topLeft_px.y, rectangleItem.dimensions_px.x, rectangleItem.dimensions_px.y);
-    context.fillStyle = utils_1.asRGBAString(rectangleItem.style.fillColour);
-    context.strokeStyle = utils_1.asRGBAString(rectangleItem.style.strokeColour);
-    context.fill();
-    context.stroke();
+    applyStyle(context, rectangleItem.style);
     // context.restore();
 }
 

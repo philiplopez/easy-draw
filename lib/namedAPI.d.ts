@@ -9,5 +9,15 @@ export * from "./types";
  * @param transparency "alpha": 0.0 to 1.0 (0 is transparent, 1.0 is opaque, 0.5 is half-opaque)
  */
 export declare function rgba(red: number, green: number, blue: number, alpha: number): t.RGBA;
-export declare function circle(centre_px: Vector2D, radius_px: number, style?: t.Style): t.Circle;
-export declare function rectangle(topLeft_px: Vector2D, dimensions_px: Vector2D, style?: t.Style): t.Rectangle;
+export interface CircleParameters {
+    centre_px: Vector2D;
+    radius_px: number;
+    style?: t.Style;
+}
+export declare function circle({centre_px, radius_px, style}: CircleParameters): t.Circle;
+export interface RectangleParameters {
+    topLeft_px: Vector2D;
+    dimensions_px: Vector2D;
+    style?: t.Style;
+}
+export declare function rectangle({topLeft_px, dimensions_px, style}: RectangleParameters): t.Rectangle;

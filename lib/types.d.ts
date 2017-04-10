@@ -6,8 +6,8 @@ export interface RGBA {
     alpha: number;
 }
 export interface Style {
-    fillColour: RGBA;
-    strokeColour: RGBA;
+    fillRGBA?: RGBA;
+    strokeRGBA?: RGBA;
 }
 export interface Drawable {
     type: "shape";

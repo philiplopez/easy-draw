@@ -2,11 +2,7 @@ import * as t from "./types"
 import {Vector2D} from "easy-vector2d"
 export * from "./types"
 
-// TODO: probably want a defaultStyleFunction to handle overrides of only one attribute
-const DEFAULT_STYLE : t.Style = {
-    fillColour: rgba(255, 255, 255, 1),
-    strokeColour: rgba(0, 0, 0, 1)
-}
+const EMPTY_STYLE : t.Style = {}
 
 /**
  *
@@ -19,10 +15,20 @@ export function rgba(red : number, green : number, blue : number, alpha : number
     return {red, green, blue, alpha}
 }
 
-export function circle(centre_px : Vector2D, radius_px : number, style = DEFAULT_STYLE) : t.Circle {
-    return {type: "shape", shapeType: "circle", centre_px, radius_px, style};
+export interface CircleParameters {
+    centre_px: Vector2D,
+    radius_px: number,
+    style?: t.Style
+}
+export function circle({centre_px, radius_px, style = EMPTY_STYLE} : CircleParameters) : t.Circle {
+    return { type: "shape", shapeType: "circle", centre_px, radius_px, style }
 }
 
-export function rectangle(topLeft_px : Vector2D, dimensions_px : Vector2D, style = DEFAULT_STYLE) : t.Rectangle {
+export interface RectangleParameters {
+    topLeft_px: Vector2D,
+    dimensions_px: Vector2D,
+    style?: t.Style
+}
+export function rectangle({topLeft_px, dimensions_px, style = EMPTY_STYLE} : RectangleParameters) : t.Rectangle {
     return {type: "shape", shapeType: "rectangle", topLeft_px, dimensions_px, style}
 }

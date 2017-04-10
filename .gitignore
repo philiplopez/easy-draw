@@ -1,2 +1,4 @@
 node_modules
 .fusebox
+.DS_Store
+tmp
